@@ -14,16 +14,58 @@
 //
 // ============================================================================
 
-// Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
+#include <stdio.h>
+#include <string.h>
+
 
 // --- Constantes Globais ---
-// Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
+#define MAX_TERRITORIOS 5
+#define MAX_STRING 50
 
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
+typedef struct {
+    char nome[MAX_STRING];
+    char cor[MAX_STRING];
+    int tropas;
+} territorio;
 
 // --- Protótipos das Funções ---
 // Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
+void limparBufferEntrada(){
+    int c;
+    while ((c= getchar()) != '\n' && c != EOF);
+}
+
+territorio cadastro_territorio(){
+    territorio novo;
+    int totalTerritorio = 0;
+
+    do{
+    printf("===========================\n");
+    printf("Cadastro de territorio %d\n", totalTerritorio + 1);
+    printf("===========================\n");
+
+    printf("Nome do territorio: ");
+    fgets(novo.nome, MAX_STRING, stdin);
+    novo.nome[strcspn(novo.nome, "\n")] = '\0';
+
+    printf("Cor do territorio: ");
+    fgets(novo.cor, MAX_STRING, stdin);
+    novo.nome[strcspn(novo.cor, "\n")] = '\0';
+
+    printf("Numero de tropas: ");
+    scanf("%d", &novo.tropas);
+    limparBufferEntrada();
+
+    totalTerritorio++;
+
+    } while (totalTerritorio < MAX_TERRITORIOS);
+
+
+
+    return novo;
+}
 // Funções de setup e gerenciamento de memória:
 // Funções de interface com o usuário:
 // Funções de lógica principal do jogo:
@@ -32,6 +74,9 @@
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
+    territorio mapa = cadastro_territorio();
+    
+    printf("Nome: %s", mapa.nome);
     // 1. Configuração Inicial (Setup):
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
