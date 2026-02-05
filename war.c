@@ -37,34 +37,30 @@ void limparBufferEntrada(){
     while ((c= getchar()) != '\n' && c != EOF);
 }
 
-territorio cadastro_territorio(){
-    territorio novo;
-    int totalTerritorio = 0;
+void cadastro_territorio(territorio mapa[MAX_TERRITORIOS]){
 
-    do{
+    for(int i = 0; i < MAX_TERRITORIOS; i++){
     printf("===========================\n");
-    printf("Cadastro de territorio %d\n", totalTerritorio + 1);
-    printf("===========================\n");
+    printf("Cadastro de territorio %d\n", i + 1);
+    
 
     printf("Nome do territorio: ");
-    fgets(novo.nome, MAX_STRING, stdin);
-    novo.nome[strcspn(novo.nome, "\n")] = '\0';
+    fgets(mapa[i].nome, MAX_STRING, stdin);
+    mapa[i].nome[strcspn(mapa[i].nome, "\n")] = '\0';
 
     printf("Cor do territorio: ");
-    fgets(novo.cor, MAX_STRING, stdin);
-    novo.nome[strcspn(novo.cor, "\n")] = '\0';
+    fgets(mapa[i].cor, MAX_STRING, stdin);
+    mapa[i].cor[strcspn(mapa[i].cor, "\n")] = '\0';
 
     printf("Numero de tropas: ");
-    scanf("%d", &novo.tropas);
+    scanf("%d", &mapa[i].tropas);
     limparBufferEntrada();
+    printf("===========================\n");
 
-    totalTerritorio++;
-
-    } while (totalTerritorio < MAX_TERRITORIOS);
-
+    }
 
 
-    return novo;
+    
 }
 // Funções de setup e gerenciamento de memória:
 // Funções de interface com o usuário:
@@ -74,9 +70,19 @@ territorio cadastro_territorio(){
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
-    territorio mapa = cadastro_territorio();
+    territorio mapa[MAX_TERRITORIOS];
     
-    printf("Nome: %s", mapa.nome);
+    //chamando função cadastro para preencher os dados
+    cadastro_territorio(mapa);
+    
+    for (int i = 0; i < 5; i++){
+        printf("-----------------------------\n");
+        printf("TERRITORIO %d: \n", i + 1);
+        printf("- Nome: %s\n", mapa[i].nome);
+        printf("- cor: %s\n", mapa[i].cor);
+        printf("- tropas: %d\n", mapa[i].tropas);
+        printf("----------------------------\n");
+    }
     // 1. Configuração Inicial (Setup):
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
